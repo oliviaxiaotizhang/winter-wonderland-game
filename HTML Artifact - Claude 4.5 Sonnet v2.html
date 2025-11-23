@@ -1,0 +1,854 @@
+<html lang="en"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Winter Wonderland Sleigh Challenge</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            overflow: hidden;
+            background: #87CEEB;
+        }
+
+        #gameContainer {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+            background: linear-gradient(to bottom, #2c5f8d 0%, #4A90E2 30%, #87CEEB 60%, #E8F4F8 100%);
+        }
+
+        /* Mountains */
+        #mountainsContainer {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            height: 60%;
+            z-index: 1;
+        }
+
+        .mountain {
+            position: absolute;
+            bottom: 0;
+        }
+
+        .mountain1 {
+            left: -10%;
+            width: 0;
+            height: 0;
+            border-left: 300px solid transparent;
+            border-right: 300px solid transparent;
+            border-bottom: 450px solid #b8c6db;
+            filter: brightness(0.9);
+            z-index: 1;
+        }
+
+        .mountain1::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -300px;
+            width: 0;
+            height: 0;
+            border-left: 300px solid transparent;
+            border-right: 300px solid transparent;
+            border-bottom: 450px solid #FFFFFF;
+            clip-path: polygon(50% 0%, 30% 40%, 70% 40%);
+        }
+
+        .mountain2 {
+            left: 25%;
+            width: 0;
+            height: 0;
+            border-left: 250px solid transparent;
+            border-right: 250px solid transparent;
+            border-bottom: 400px solid #c9d6df;
+            filter: brightness(0.95);
+            z-index: 2;
+        }
+
+        .mountain2::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -250px;
+            width: 0;
+            height: 0;
+            border-left: 250px solid transparent;
+            border-right: 250px solid transparent;
+            border-bottom: 400px solid #FFFFFF;
+            clip-path: polygon(50% 0%, 25% 45%, 75% 45%);
+        }
+
+        .mountain3 {
+            right: 10%;
+            width: 0;
+            height: 0;
+            border-left: 280px solid transparent;
+            border-right: 280px solid transparent;
+            border-bottom: 480px solid #adbdcc;
+            filter: brightness(0.85);
+            z-index: 1;
+        }
+
+        .mountain3::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -280px;
+            width: 0;
+            height: 0;
+            border-left: 280px solid transparent;
+            border-right: 280px solid transparent;
+            border-bottom: 480px solid #FFFFFF;
+            clip-path: polygon(50% 0%, 28% 42%, 72% 42%);
+        }
+
+        .mountain4 {
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 0;
+            border-left: 200px solid transparent;
+            border-right: 200px solid transparent;
+            border-bottom: 350px solid #d4dfe8;
+            filter: brightness(1);
+            z-index: 2;
+        }
+
+        .mountain4::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -200px;
+            width: 0;
+            height: 0;
+            border-left: 200px solid transparent;
+            border-right: 200px solid transparent;
+            border-bottom: 350px solid #FFFFFF;
+            clip-path: polygon(50% 0%, 22% 48%, 78% 48%);
+        }
+
+        /* Snowflakes */
+        #snowContainer {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 50;
+            overflow: hidden;
+        }
+
+        .snowflake {
+            position: absolute;
+            top: -10px;
+            color: white;
+            font-size: 1em;
+            opacity: 0.8;
+            animation: snowfall linear infinite;
+            text-shadow: 0 0 5px rgba(255, 255, 255, 0.8);
+        }
+
+        @keyframes snowfall {
+            0% {
+                transform: translateY(0) rotate(0deg);
+            }
+            100% {
+                transform: translateY(100vh) rotate(360deg);
+            }
+        }
+
+        /* Scrolling Road */
+        #road {
+            position: absolute;
+            width: 400px;
+            left: 50%;
+            transform: translateX(-50%);
+            height: 200%;
+            top: -100%;
+            background: linear-gradient(to bottom, 
+                #FFFFFF 0%, #F0F8FF 10%, 
+                #FFFFFF 20%, #E6F2FF 30%,
+                #FFFFFF 40%, #F0F8FF 50%,
+                #FFFFFF 60%, #E6F2FF 70%,
+                #FFFFFF 80%, #F0F8FF 90%,
+                #FFFFFF 100%);
+            animation: scrollRoad 3s linear infinite;
+            border-left: 5px solid #B0C4DE;
+            border-right: 5px solid #B0C4DE;
+            z-index: 3;
+        }
+
+        @keyframes scrollRoad {
+            from { top: -100%; }
+            to { top: 0%; }
+        }
+
+        /* Road Stripes */
+        .roadStripe {
+            position: absolute;
+            width: 10px;
+            height: 60px;
+            background: #D3D3D3;
+            left: 50%;
+            transform: translateX(-50%);
+            border-radius: 5px;
+        }
+
+        /* Reindeer Container */
+        #reindeerContainer {
+            position: absolute;
+            top: 50px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 30px;
+            z-index: 5;
+        }
+
+        .reindeer {
+            font-size: 50px;
+            animation: reinBounce 0.6s ease-in-out infinite alternate;
+        }
+
+        @keyframes reinBounce {
+            from { transform: translateY(0px); }
+            to { transform: translateY(-10px); }
+        }
+
+        /* Ropes connecting reindeer to sleigh */
+        #ropesContainer {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 4;
+            pointer-events: none;
+        }
+
+        .rope {
+            position: absolute;
+            stroke: #8B4513;
+            stroke-width: 3;
+            fill: none;
+            stroke-linecap: round;
+            filter: drop-shadow(2px 2px 2px rgba(0,0,0,0.3));
+        }
+
+        /* Santa and Sleigh */
+        #santaContainer {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 10;
+        }
+
+        #sleigh {
+            position: relative;
+            width: 180px;
+            height: 120px;
+            background: linear-gradient(135deg, #8B0000 0%, #DC143C 100%);
+            border-radius: 20px 20px 50px 50px;
+            border: 4px solid #FFD700;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        #sleigh::before {
+            content: '✨';
+            position: absolute;
+            top: -30px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 30px;
+        }
+
+        #sleigh::after {
+            content: '';
+            position: absolute;
+            bottom: -15px;
+            left: 20px;
+            right: 20px;
+            height: 20px;
+            background: linear-gradient(90deg, transparent, #FFD700, transparent);
+            border-radius: 50%;
+        }
+
+        #santa {
+            position: absolute;
+            top: -60px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 80px;
+            z-index: 2;
+            transition: transform 0.2s;
+        }
+
+        #leftArm, #rightArm {
+            position: absolute;
+            top: -30px;
+            font-size: 40px;
+            opacity: 0;
+            transition: all 0.3s;
+            z-index: 1;
+        }
+
+        #leftArm {
+            left: -50px;
+            transform: rotate(-45deg);
+        }
+
+        #rightArm {
+            right: -50px;
+            transform: rotate(45deg);
+        }
+
+        #leftArm.reaching {
+            opacity: 1;
+            left: -70px;
+        }
+
+        #rightArm.reaching {
+            opacity: 1;
+            right: -70px;
+        }
+
+        /* Presents */
+        .present {
+            position: absolute;
+            font-size: 40px;
+            z-index: 8;
+            animation: movePresent 3s linear;
+        }
+
+        @keyframes movePresent {
+            from { top: -50px; }
+            to { top: 100vh; }
+        }
+
+        /* Score Display */
+        #scoreBoard {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            z-index: 60;
+            font-weight: bold;
+            font-size: 24px;
+            color: #8B0000;
+        }
+
+        /* Success Animation */
+        #successAnimation {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 55;
+            pointer-events: none;
+        }
+
+        .successMessage {
+            font-size: 48px;
+            font-weight: bold;
+            color: #FFD700;
+            text-shadow: 3px 3px 6px rgba(0,0,0,0.5);
+            animation: popUp 0.6s ease-out;
+        }
+
+        @keyframes popUp {
+            0% { transform: scale(0) rotate(-10deg); opacity: 0; }
+            50% { transform: scale(1.2) rotate(5deg); opacity: 1; }
+            100% { transform: scale(0) rotate(10deg); opacity: 0; }
+        }
+
+        .coin {
+            position: absolute;
+            font-size: 30px;
+            animation: coinScatter 0.8s ease-out forwards;
+        }
+
+        @keyframes coinScatter {
+            0% { transform: translate(0, 0) scale(1); opacity: 1; }
+            100% { transform: translate(var(--tx), var(--ty)) scale(0); opacity: 0; }
+        }
+
+        /* Miss Animation */
+        .snowball {
+            position: absolute;
+            font-size: 40px;
+            z-index: 15;
+            animation: snowballHit 0.5s ease-in;
+        }
+
+        @keyframes snowballHit {
+            0% { top: -50px; opacity: 1; }
+            80% { top: 45%; opacity: 1; }
+            100% { top: 45%; opacity: 0; transform: scale(1.5); }
+        }
+
+        /* Mobile Controls */
+        #controls {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 100px;
+            z-index: 60;
+        }
+
+        .controlBtn {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+            border: 4px solid white;
+            font-size: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            transition: transform 0.1s;
+            user-select: none;
+        }
+
+        .controlBtn:active {
+            transform: scale(0.9);
+        }
+
+        /* Instructions */
+        #instructions {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(255, 255, 255, 0.95);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            z-index: 100;
+            text-align: center;
+            max-width: 500px;
+        }
+
+        #instructions h1 {
+            color: #8B0000;
+            margin-bottom: 20px;
+            font-size: 32px;
+        }
+
+        #instructions p {
+            color: #333;
+            margin: 15px 0;
+            font-size: 18px;
+            line-height: 1.6;
+        }
+
+        #startBtn {
+            margin-top: 25px;
+            padding: 15px 40px;
+            font-size: 24px;
+            background: linear-gradient(135deg, #DC143C 0%, #8B0000 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            transition: transform 0.2s;
+        }
+
+        #startBtn:hover {
+            transform: scale(1.05);
+        }
+
+        .hidden {
+            display: none !important;
+        }
+    </style>
+</head>
+<body>
+    <div id="gameContainer">
+        <!-- Mountains Background -->
+        <div id="mountainsContainer">
+            <div class="mountain mountain1"></div>
+            <div class="mountain mountain2"></div>
+            <div class="mountain mountain3"></div>
+            <div class="mountain mountain4"></div>
+        </div>
+
+        <!-- Scrolling Road -->
+        <div id="road"></div>
+
+        <!-- Ropes SVG Container -->
+        <svg id="ropesContainer" width="100%" height="100%">
+            <path class="rope" id="ropeLeft"></path>
+            <path class="rope" id="ropeCenter"></path>
+            <path class="rope" id="ropeRight"></path>
+        </svg>
+
+        <!-- Reindeer -->
+        <div id="reindeerContainer">
+            <div class="reindeer" id="reindeer1">🦌</div>
+            <div class="reindeer" id="reindeer2" style="animation-delay: 0.3s;">🦌</div>
+            <div class="reindeer" id="reindeer3" style="animation-delay: 0.15s;">🦌</div>
+        </div>
+
+        <!-- Santa and Sleigh -->
+        <div id="santaContainer">
+            <div id="leftArm">🤚</div>
+            <div id="santa">🎅</div>
+            <div id="rightArm">🤚</div>
+            <div id="sleigh"></div>
+        </div>
+
+        <!-- Snowfall Container -->
+        <div id="snowContainer"></div>
+
+        <!-- Score Board -->
+        <div id="scoreBoard">
+            🎁 Score: <span id="score">0</span>
+        </div>
+
+        <!-- Success Animation Container -->
+        <div id="successAnimation"></div>
+
+        <!-- Mobile Controls -->
+        <div id="controls">
+            <div class="controlBtn" id="leftBtn">👈</div>
+            <div class="controlBtn" id="rightBtn">👉</div>
+        </div>
+
+        <!-- Instructions Overlay -->
+        <div id="instructions">
+            <h1>🎄 Winter Wonderland Sleigh Challenge 🎄</h1>
+            <p>Help Santa collect presents as they slide by!</p>
+            <p><strong>Desktop:</strong> Use ← and → arrow keys</p>
+            <p><strong>Mobile:</strong> Tap the 👈 and 👉 buttons</p>
+            <p>Match Santa's hand to the side the present appears on!</p>
+            <p>Miss a present and get snowballed! ☃️</p>
+            <button id="startBtn">Start Game! 🎮</button>
+        </div>
+    </div>
+
+    <script>
+        // Game State
+        let score = 0;
+        let gameRunning = false;
+        let presents = [];
+        let presentSpawnTimer = null;
+
+        // DOM Elements
+        const gameContainer = document.getElementById('gameContainer');
+        const santa = document.getElementById('santa');
+        const leftArm = document.getElementById('leftArm');
+        const rightArm = document.getElementById('rightArm');
+        const scoreDisplay = document.getElementById('score');
+        const successAnimation = document.getElementById('successAnimation');
+        const instructions = document.getElementById('instructions');
+        const startBtn = document.getElementById('startBtn');
+        const leftBtn = document.getElementById('leftBtn');
+        const rightBtn = document.getElementById('rightBtn');
+        const road = document.getElementById('road');
+        const snowContainer = document.getElementById('snowContainer');
+
+        // Add road stripes for effect
+        function createRoadStripes() {
+            for (let i = 0; i < 8; i++) {
+                const stripe = document.createElement('div');
+                stripe.className = 'roadStripe';
+                stripe.style.top = (i * 150) + 'px';
+                road.appendChild(stripe);
+            }
+        }
+        createRoadStripes();
+
+        // Create Snowflakes
+        function createSnowflakes() {
+            const snowflakeChars = ['❄', '❅', '❆', '•'];
+            
+            for (let i = 0; i < 50; i++) {
+                const snowflake = document.createElement('div');
+                snowflake.className = 'snowflake';
+                snowflake.textContent = snowflakeChars[Math.floor(Math.random() * snowflakeChars.length)];
+                snowflake.style.left = Math.random() * 100 + '%';
+                snowflake.style.fontSize = (Math.random() * 1 + 0.5) + 'em';
+                snowflake.style.animationDuration = (Math.random() * 10 + 10) + 's';
+                snowflake.style.animationDelay = Math.random() * 10 + 's';
+                snowflake.style.opacity = Math.random() * 0.6 + 0.3;
+                snowContainer.appendChild(snowflake);
+            }
+        }
+        createSnowflakes();
+
+        // Draw Ropes
+        function drawRopes() {
+            const reindeerContainer = document.getElementById('reindeerContainer');
+            const santaContainer = document.getElementById('santaContainer');
+            const reindeer1 = document.getElementById('reindeer1');
+            const reindeer2 = document.getElementById('reindeer2');
+            const reindeer3 = document.getElementById('reindeer3');
+            
+            const reindeerRect = reindeerContainer.getBoundingClientRect();
+            const santaRect = santaContainer.getBoundingClientRect();
+            const r1Rect = reindeer1.getBoundingClientRect();
+            const r2Rect = reindeer2.getBoundingClientRect();
+            const r3Rect = reindeer3.getBoundingClientRect();
+
+            // Calculate connection points
+            const sleighTop = santaRect.top + 20;
+            const sleighCenterX = santaRect.left + santaRect.width / 2;
+
+            // Left reindeer rope
+            const r1X = r1Rect.left + r1Rect.width / 2;
+            const r1Y = r1Rect.top + r1Rect.height;
+            
+            // Center reindeer rope
+            const r2X = r2Rect.left + r2Rect.width / 2;
+            const r2Y = r2Rect.top + r2Rect.height;
+            
+            // Right reindeer rope
+            const r3X = r3Rect.left + r3Rect.width / 2;
+            const r3Y = r3Rect.top + r3Rect.height;
+
+            // Draw curved ropes using quadratic bezier curves
+            const ropeLeft = document.getElementById('ropeLeft');
+            const ropeCenter = document.getElementById('ropeCenter');
+            const ropeRight = document.getElementById('ropeRight');
+
+            // Left rope
+            const controlY = (r1Y + sleighTop) / 2;
+            ropeLeft.setAttribute('d', `M ${r1X} ${r1Y} Q ${r1X} ${controlY} ${sleighCenterX - 30} ${sleighTop}`);
+            
+            // Center rope
+            ropeCenter.setAttribute('d', `M ${r2X} ${r2Y} Q ${r2X} ${controlY} ${sleighCenterX} ${sleighTop}`);
+            
+            // Right rope
+            ropeRight.setAttribute('d', `M ${r3X} ${r3Y} Q ${r3X} ${controlY} ${sleighCenterX + 30} ${sleighTop}`);
+        }
+
+        // Update ropes on animation frame
+        function updateRopes() {
+            drawRopes();
+            requestAnimationFrame(updateRopes);
+        }
+
+        // Initialize ropes after a short delay
+        setTimeout(() => {
+            drawRopes();
+            updateRopes();
+        }, 100);
+
+        // Start Game
+        startBtn.addEventListener('click', () => {
+            instructions.classList.add('hidden');
+            startGame();
+        });
+
+        function startGame() {
+            gameRunning = true;
+            score = 0;
+            scoreDisplay.textContent = score;
+            spawnPresents();
+        }
+
+        // Spawn Presents
+        function spawnPresents() {
+            if (!gameRunning) return;
+
+            const present = document.createElement('div');
+            present.className = 'present';
+            
+            // Random present emoji
+            const presentTypes = ['🎁', '🎀', '📦'];
+            present.textContent = presentTypes[Math.floor(Math.random() * presentTypes.length)];
+            
+            // Random side (left or right, never center)
+            const side = Math.random() < 0.5 ? 'left' : 'right';
+            present.dataset.side = side;
+            
+            const santaRect = document.getElementById('santaContainer').getBoundingClientRect();
+            const containerRect = gameContainer.getBoundingClientRect();
+            
+            if (side === 'left') {
+                present.style.left = (santaRect.left - containerRect.left - 80) + 'px';
+            } else {
+                present.style.left = (santaRect.right - containerRect.left + 40) + 'px';
+            }
+            
+            gameContainer.appendChild(present);
+            presents.push({
+                element: present,
+                side: side,
+                collected: false,
+                startTime: Date.now()
+            });
+
+            // Remove present after animation
+            setTimeout(() => {
+                if (!present.dataset.collected) {
+                    // Missed present - snowball attack!
+                    missPresent(present);
+                }
+                present.remove();
+                presents = presents.filter(p => p.element !== present);
+            }, 3000);
+
+            // Spawn next present
+            const nextSpawn = 1500 + Math.random() * 1000;
+            setTimeout(spawnPresents, nextSpawn);
+        }
+
+        // Reach Left
+        function reachLeft() {
+            if (!gameRunning) return;
+            
+            leftArm.classList.add('reaching');
+            setTimeout(() => leftArm.classList.remove('reaching'), 300);
+            
+            checkCollection('left');
+        }
+
+        // Reach Right
+        function reachRight() {
+            if (!gameRunning) return;
+            
+            rightArm.classList.add('reaching');
+            setTimeout(() => rightArm.classList.remove('reaching'), 300);
+            
+            checkCollection('right');
+        }
+
+        // Check Collection
+        function checkCollection(side) {
+            const santaRect = document.getElementById('santaContainer').getBoundingClientRect();
+            const catchZoneTop = santaRect.top - 50;
+            const catchZoneBottom = santaRect.bottom + 50;
+
+            let collected = false;
+
+            presents.forEach(presentObj => {
+                if (presentObj.collected) return;
+                
+                const presentRect = presentObj.element.getBoundingClientRect();
+                const presentCenter = (presentRect.top + presentRect.bottom) / 2;
+
+                // Check if present is in catch zone and on correct side
+                if (presentCenter >= catchZoneTop && 
+                    presentCenter <= catchZoneBottom && 
+                    presentObj.side === side) {
+                    
+                    collectPresent(presentObj.element);
+                    presentObj.collected = true;
+                    collected = true;
+                }
+            });
+        }
+
+        // Collect Present
+        function collectPresent(present) {
+            present.dataset.collected = 'true';
+            score++;
+            scoreDisplay.textContent = score;
+
+            // Remove present
+            present.style.opacity = '0';
+            
+            // Success animation
+            showSuccessAnimation();
+        }
+
+        // Success Animation
+        function showSuccessAnimation() {
+            // Success message
+            const message = document.createElement('div');
+            message.className = 'successMessage';
+            message.textContent = '🌟 Great Catch! 🌟';
+            successAnimation.appendChild(message);
+            
+            setTimeout(() => message.remove(), 600);
+
+            // Scatter coins
+            for (let i = 0; i < 8; i++) {
+                const coin = document.createElement('div');
+                coin.className = 'coin';
+                coin.textContent = '💰';
+                
+                const angle = (Math.PI * 2 * i) / 8;
+                const distance = 150;
+                const tx = Math.cos(angle) * distance;
+                const ty = Math.sin(angle) * distance;
+                
+                coin.style.setProperty('--tx', tx + 'px');
+                coin.style.setProperty('--ty', ty + 'px');
+                
+                successAnimation.appendChild(coin);
+                setTimeout(() => coin.remove(), 800);
+            }
+        }
+
+        // Miss Present
+        function missPresent(present) {
+            const snowball = document.createElement('div');
+            snowball.className = 'snowball';
+            snowball.textContent = '⚪';
+            
+            const santaRect = document.getElementById('santaContainer').getBoundingClientRect();
+            const containerRect = gameContainer.getBoundingClientRect();
+            
+            snowball.style.left = (santaRect.left - containerRect.left + 50) + 'px';
+            
+            gameContainer.appendChild(snowball);
+            
+            // Santa reaction
+            santa.style.transform = 'translateX(-50%) rotate(-10deg) scale(0.9)';
+            setTimeout(() => {
+                santa.style.transform = 'translateX(-50%) rotate(0deg) scale(1)';
+            }, 200);
+            
+            setTimeout(() => snowball.remove(), 500);
+        }
+
+        // Keyboard Controls
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowLeft') {
+                e.preventDefault();
+                reachLeft();
+            } else if (e.key === 'ArrowRight') {
+                e.preventDefault();
+                reachRight();
+            }
+        });
+
+        // Button Controls
+        leftBtn.addEventListener('click', reachLeft);
+        rightBtn.addEventListener('click', reachRight);
+
+        // Touch controls for mobile
+        leftBtn.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            reachLeft();
+        });
+
+        rightBtn.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            reachRight();
+        });
+
+        // Handle window resize
+        window.addEventListener('resize', drawRopes);
+    </script>
+
+</body></html>
