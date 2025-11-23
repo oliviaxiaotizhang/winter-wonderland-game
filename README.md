@@ -3,7 +3,7 @@ A festive web game created as a prompt engineering and GenAI showcase. Santa rid
 
 🎮 Play the Game
 Live demo here
-Replace with your actual GitHub Pages URL once deployed.
+https://oliviaxiaotizhang.github.io/winter-wonderland-game/HTML%20Artifact%20-%20Claude%204.5%20Sonnet%20v2.html.
 
 How to Play
 Move Santa:
